@@ -14,32 +14,70 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="/css/arcade-shell.css" />
+    <link rel="stylesheet" href="/css/arcade-difficulty.css" />
+    <link rel="stylesheet" href="/css/arcade-menu.css" />
     <link rel="stylesheet" href="/css/arcade-game.css" />
   </head>
   <body class="arcade-theme">
     <div id="app" class="arcade-shell">
-      <!-- Menú principal -->
-      <section id="screen-menu" class="screen active">
-        <header class="hero">
-          <h1>Aprendamos Las Tablas</h1>
-          <p class="subtitle">Modo arcade, aventura y colección</p>
-        </header>
-        <div class="coins-bar hidden" id="coins-bar">
-          <span class="coin-icon">🪙</span>
-          <span id="menu-coins">0</span> monedas
+      <!-- Menú principal (premium CRT) -->
+      <section id="screen-menu" class="screen menu-screen active">
+        <div class="menu-cabinet">
+          <div class="menu-bezel">
+            <div class="crt-screen menu-crt">
+              <div class="menu-bezel-glows" aria-hidden="true">
+                <span class="bezel-glow menu-glow--arcade"></span>
+                <span class="bezel-glow menu-glow--adventure"></span>
+                <span class="bezel-glow menu-glow--shop"></span>
+                <span class="bezel-glow menu-glow--collection"></span>
+                <span class="bezel-glow menu-glow--ranking"></span>
+                <span class="bezel-glow menu-glow--auth"></span>
+              </div>
+              <div class="menu-stage">
+                <header class="menu-header">
+                  <h1 class="menu-title">Aprendamos Las Tablas</h1>
+                  <p class="menu-subtitle">Modo arcade, aventura y colección</p>
+                </header>
+                <div class="menu-coins-bar hidden" id="coins-bar">
+                  <span class="menu-coins-icon" aria-hidden="true">🪙</span>
+                  <span id="menu-coins">0</span>
+                  <span class="menu-coins-label">monedas</span>
+                </div>
+                <div id="user-banner" class="menu-user-banner hidden"></div>
+                <nav class="menu-actions">
+                  <button type="button" class="menu-panel menu-panel--arcade" data-action="arcade">
+                    <span class="menu-panel-icon" aria-hidden="true">🕹️</span>
+                    <span class="menu-panel-label">Arcade</span>
+                  </button>
+                  <button type="button" class="menu-panel menu-panel--adventure" data-action="adventure">
+                    <span class="menu-panel-icon" aria-hidden="true">🗺️</span>
+                    <span class="menu-panel-label">Aventura</span>
+                  </button>
+                  <button type="button" class="menu-panel menu-panel--shop" data-action="shop">
+                    <span class="menu-panel-icon" aria-hidden="true">🏪</span>
+                    <span class="menu-panel-label">Tienda</span>
+                  </button>
+                  <button type="button" class="menu-panel menu-panel--collection" data-action="collection">
+                    <span class="menu-panel-icon" aria-hidden="true">📚</span>
+                    <span class="menu-panel-label">Colección</span>
+                  </button>
+                  <button type="button" class="menu-panel menu-panel--ranking" data-action="leaderboard">
+                    <span class="menu-panel-icon" aria-hidden="true">🏆</span>
+                    <span class="menu-panel-label">Ranking</span>
+                  </button>
+                  <button type="button" class="menu-panel menu-panel--auth" data-action="auth" id="btn-auth">
+                    <span class="menu-panel-label">Entrar</span>
+                  </button>
+                </nav>
+                <p class="menu-install-hint hidden" id="install-hint">
+                  <button type="button" class="menu-link-btn" id="btn-install">Instalar app</button>
+                </p>
+              </div>
+              <div class="crt-scanlines menu-scanlines" aria-hidden="true"></div>
+              <div class="crt-curve crt-curve--strong" aria-hidden="true"></div>
+            </div>
+          </div>
         </div>
-        <div id="user-banner" class="user-banner hidden"></div>
-        <nav class="menu-actions">
-          <button type="button" class="btn btn-primary" data-action="arcade">🕹️ Arcade</button>
-          <button type="button" class="btn btn-primary" data-action="adventure">🗺️ Aventura</button>
-          <button type="button" class="btn btn-secondary" data-action="shop">🏪 Tienda</button>
-          <button type="button" class="btn btn-secondary" data-action="collection">📚 Colección</button>
-          <button type="button" class="btn btn-ghost" data-action="leaderboard">🏆 Ranking</button>
-          <button type="button" class="btn btn-ghost" data-action="auth" id="btn-auth">Entrar</button>
-        </nav>
-        <p class="install-hint hidden" id="install-hint">
-          <button type="button" class="link-btn" id="btn-install">Instalar app</button>
-        </p>
       </section>
 
       <!-- Auth -->
@@ -70,19 +108,43 @@
         </form>
       </section>
 
-      <!-- Arcade: dificultad -->
-      <section id="screen-difficulty" class="screen">
-        <header class="screen-header">
-          <button type="button" class="back-btn" data-back>&larr; Volver</button>
-          <h2>Modo Arcade</h2>
-        </header>
-        <p class="mode-desc">Elige la dificultad y responde hasta quedarte sin vidas.</p>
-        <div class="difficulty-grid">
-          <button type="button" class="btn btn-difficulty" data-level="facil">Fácil<br /><small>1–5</small></button>
-          <button type="button" class="btn btn-difficulty" data-level="medio">Medio<br /><small>1–10</small></button>
-          <button type="button" class="btn btn-difficulty" data-level="dificil">Difícil<br /><small>5–15</small></button>
+      <!-- Arcade: dificultad (premium CRT) -->
+      <section id="screen-difficulty" class="screen difficulty-screen">
+        <div class="difficulty-cabinet">
+          <div class="difficulty-bezel">
+            <div class="crt-screen difficulty-crt">
+              <div class="difficulty-bezel-glows" aria-hidden="true">
+                <span class="bezel-glow bezel-glow--facil"></span>
+                <span class="bezel-glow bezel-glow--medio"></span>
+                <span class="bezel-glow bezel-glow--dificil"></span>
+              </div>
+              <div class="difficulty-stage">
+                <header class="difficulty-header">
+                  <button type="button" class="difficulty-back-btn" data-back>&larr; Volver</button>
+                  <h2 class="difficulty-title">Modo Arcade</h2>
+                </header>
+                <p class="difficulty-desc">Elige la dificultad y responde hasta quedarte sin vidas.</p>
+                <div class="difficulty-grid">
+                  <button type="button" class="difficulty-panel difficulty-panel--facil" data-level="facil">
+                    <span class="difficulty-label">Fácil</span>
+                    <span class="difficulty-range">1–5</span>
+                  </button>
+                  <button type="button" class="difficulty-panel difficulty-panel--medio" data-level="medio">
+                    <span class="difficulty-label">Medio</span>
+                    <span class="difficulty-range">1–10</span>
+                  </button>
+                  <button type="button" class="difficulty-panel difficulty-panel--dificil" data-level="dificil">
+                    <span class="difficulty-label">Difícil</span>
+                    <span class="difficulty-range">5–15</span>
+                  </button>
+                </div>
+                <p class="difficulty-guest-note" id="guest-note"></p>
+              </div>
+              <div class="crt-scanlines difficulty-scanlines" aria-hidden="true"></div>
+              <div class="crt-curve crt-curve--strong" aria-hidden="true"></div>
+            </div>
+          </div>
         </div>
-        <p class="guest-note" id="guest-note"></p>
       </section>
 
       <!-- Aventura: mapa -->

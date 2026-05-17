@@ -1,0 +1,437 @@
+/* Menú principal — estilo premium CRT (igual que dificultad) */
+
+#screen-menu.menu-screen {
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  min-height: calc(100dvh - 1.3rem);
+  display: flex;
+  flex-direction: column;
+}
+
+#screen-menu.menu-screen.active {
+  display: flex;
+}
+
+.menu-cabinet {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.menu-bezel {
+  position: relative;
+  flex: 1;
+  padding: 0.55rem;
+  background: linear-gradient(180deg, #2a2a2e 0%, #121214 55%, #0a0a0c 100%);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.8),
+    0 0 0 2px #1a1a1e;
+}
+
+.menu-bezel-glows {
+  position: absolute;
+  inset: 0.55rem;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.menu-bezel-glows .bezel-glow {
+  width: 72%;
+  height: 11%;
+  left: 14%;
+  right: auto;
+  filter: blur(16px);
+}
+
+.menu-glow--arcade {
+  bottom: 72%;
+  background: radial-gradient(ellipse 90% 120% at 50% 100%, rgba(16, 185, 129, 0.95) 0%, transparent 72%);
+  animation-delay: 0s;
+}
+
+.menu-glow--adventure {
+  bottom: 60%;
+  background: radial-gradient(ellipse 90% 120% at 50% 100%, rgba(52, 211, 153, 0.9) 0%, transparent 72%);
+  animation-delay: 0.6s;
+}
+
+.menu-glow--shop {
+  bottom: 48%;
+  background: radial-gradient(ellipse 90% 120% at 50% 100%, rgba(245, 158, 11, 0.9) 0%, transparent 72%);
+  animation-delay: 1.2s;
+}
+
+.menu-glow--collection {
+  bottom: 36%;
+  background: radial-gradient(ellipse 90% 120% at 50% 100%, rgba(251, 191, 36, 0.85) 0%, transparent 72%);
+  animation-delay: 1.8s;
+}
+
+.menu-glow--ranking {
+  bottom: 24%;
+  background: radial-gradient(ellipse 90% 120% at 50% 100%, rgba(0, 245, 255, 0.75) 0%, transparent 72%);
+  animation-delay: 2.4s;
+}
+
+.menu-glow--auth {
+  bottom: 10%;
+  background: radial-gradient(ellipse 90% 120% at 50% 100%, rgba(0, 245, 255, 0.65) 0%, transparent 72%);
+  animation-delay: 3s;
+}
+
+.menu-crt:has(.menu-panel--arcade:hover) .menu-glow--arcade,
+.menu-crt:has(.menu-panel--arcade:focus-visible) .menu-glow--arcade {
+  opacity: 0.8;
+  animation: none;
+}
+
+.menu-crt:has(.menu-panel--adventure:hover) .menu-glow--adventure,
+.menu-crt:has(.menu-panel--adventure:focus-visible) .menu-glow--adventure {
+  opacity: 0.8;
+  animation: none;
+}
+
+.menu-crt:has(.menu-panel--shop:hover) .menu-glow--shop,
+.menu-crt:has(.menu-panel--shop:focus-visible) .menu-glow--shop {
+  opacity: 0.8;
+  animation: none;
+}
+
+.menu-crt:has(.menu-panel--collection:hover) .menu-glow--collection,
+.menu-crt:has(.menu-panel--collection:focus-visible) .menu-glow--collection {
+  opacity: 0.8;
+  animation: none;
+}
+
+.menu-crt:has(.menu-panel--ranking:hover) .menu-glow--ranking,
+.menu-crt:has(.menu-panel--ranking:focus-visible) .menu-glow--ranking {
+  opacity: 0.8;
+  animation: none;
+}
+
+.menu-crt:has(.menu-panel--auth:hover) .menu-glow--auth,
+.menu-crt:has(.menu-panel--auth:focus-visible) .menu-glow--auth {
+  opacity: 0.8;
+  animation: none;
+}
+
+.menu-crt {
+  position: relative;
+  flex: 1;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #080510;
+  border-radius: 6px;
+  transform: perspective(520px) rotateX(4.5deg);
+  box-shadow:
+    inset 0 0 80px rgba(0, 0, 0, 0.95),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.menu-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 21;
+  pointer-events: none;
+  opacity: 0.55;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.22) 0 1px,
+    transparent 1px 2px
+  );
+  animation: difficulty-scan-drift 6s linear infinite;
+}
+
+.menu-crt .crt-curve,
+.menu-crt .crt-curve--strong {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.menu-stage {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 0.7rem 0.85rem;
+  overflow-y: auto;
+  pointer-events: auto;
+}
+
+.menu-actions,
+.menu-panel {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+/* Título tubo de vacío */
+.menu-header {
+  text-align: center;
+  margin-bottom: 0.65rem;
+}
+
+.menu-title {
+  margin: 0 0 0.5rem;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: clamp(0.5rem, 3.2vw, 0.62rem);
+  line-height: 1.75;
+  font-weight: normal;
+  color: #fff8f0;
+  letter-spacing: 0.02em;
+  text-shadow:
+    0 0 2px #fff,
+    0 0 6px #ffb8d0,
+    0 0 14px #ff5c9a,
+    0 0 28px #ff2d6a,
+    0 0 48px rgba(255, 45, 106, 0.75),
+    0 0 72px rgba(255, 180, 80, 0.35),
+    0 2px 0 #4a1028;
+  animation: tube-flicker 5s infinite;
+}
+
+.menu-subtitle {
+  margin: 0;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.38rem;
+  line-height: 1.7;
+  color: #b8a8d0;
+}
+
+/* Monedas y usuario */
+.menu-coins-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-bottom: 0.55rem;
+  padding: 0.5rem 0.65rem;
+  background: #0c0814;
+  border: 3px solid #3d2858;
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.6);
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.42rem;
+  color: #ffe566;
+  text-shadow: 0 0 8px rgba(255, 229, 102, 0.6);
+}
+
+.menu-coins-icon {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.menu-coins-label {
+  color: #c8b8e0;
+  text-shadow: none;
+}
+
+.menu-user-banner {
+  margin-bottom: 0.55rem;
+  padding: 0.55rem 0.65rem;
+  text-align: center;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.38rem;
+  line-height: 1.65;
+  color: #e8e0ff;
+  background: #12102a;
+  border: 3px solid rgba(0, 245, 255, 0.45);
+  box-shadow:
+    inset 0 0 12px rgba(0, 0, 0, 0.5),
+    0 0 12px rgba(0, 245, 255, 0.15);
+}
+
+.menu-user-banner strong {
+  color: #00f5ff;
+  text-shadow: 0 0 8px rgba(0, 245, 255, 0.5);
+}
+
+/* Paneles de menú */
+.menu-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+.menu-panel {
+  position: relative;
+  border: none;
+  border-radius: 10px;
+  min-height: 3.35rem;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+.menu-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    transparent 38%,
+    rgba(0, 0, 0, 0.12) 100%
+  );
+  pointer-events: none;
+}
+
+.menu-panel:active {
+  transform: translateY(4px);
+}
+
+.menu-panel-icon {
+  position: relative;
+  z-index: 1;
+  font-size: 0.95rem;
+  line-height: 1;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
+}
+
+.menu-panel-label {
+  position: relative;
+  z-index: 1;
+  font-size: 0.5rem;
+  line-height: 1.5;
+  color: #fff;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.55),
+    0 0 8px rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.05em;
+}
+
+/* Verde esmeralda — Arcade y Aventura */
+.menu-panel--arcade,
+.menu-panel--adventure {
+  background: linear-gradient(180deg, #34d399 0%, #10b981 45%, #059669 100%);
+  box-shadow:
+    0 5px 0 #047857,
+    0 0 20px rgba(16, 185, 129, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.menu-panel--arcade:hover,
+.menu-panel--adventure:hover {
+  filter: brightness(1.08);
+  box-shadow:
+    0 5px 0 #047857,
+    0 0 32px rgba(52, 211, 153, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.menu-panel--arcade:active,
+.menu-panel--adventure:active {
+  box-shadow:
+    0 2px 0 #047857,
+    0 0 16px rgba(16, 185, 129, 0.35);
+}
+
+/* Ámbar — Tienda y Colección */
+.menu-panel--shop,
+.menu-panel--collection {
+  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 45%, #d97706 100%);
+  box-shadow:
+    0 5px 0 #b45309,
+    0 0 20px rgba(245, 158, 11, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.menu-panel--shop:hover,
+.menu-panel--collection:hover {
+  filter: brightness(1.08);
+  box-shadow:
+    0 5px 0 #b45309,
+    0 0 32px rgba(251, 191, 36, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.menu-panel--shop:active,
+.menu-panel--collection:active {
+  box-shadow:
+    0 2px 0 #b45309,
+    0 0 16px rgba(245, 158, 11, 0.32);
+}
+
+/* Paneles secundarios — Ranking y sesión */
+.menu-panel--ranking,
+.menu-panel--auth {
+  background: linear-gradient(180deg, #2a2240 0%, #1a1428 100%);
+  border: 3px solid rgba(0, 245, 255, 0.35);
+  box-shadow:
+    0 4px 0 #0a0612,
+    0 0 16px rgba(0, 245, 255, 0.2),
+    inset 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.menu-panel--ranking .menu-panel-label,
+.menu-panel--auth .menu-panel-label {
+  text-shadow:
+    0 0 6px rgba(0, 245, 255, 0.5),
+    0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.menu-panel--ranking:hover,
+.menu-panel--auth:hover {
+  border-color: rgba(0, 245, 255, 0.65);
+  box-shadow:
+    0 4px 0 #0a0612,
+    0 0 28px rgba(0, 245, 255, 0.45),
+    inset 0 0 12px rgba(0, 0, 0, 0.35);
+}
+
+.menu-panel--ranking:active,
+.menu-panel--auth:active {
+  box-shadow:
+    0 1px 0 #0a0612,
+    0 0 14px rgba(0, 245, 255, 0.3);
+}
+
+.menu-install-hint {
+  text-align: center;
+  margin: 0.65rem 0 0;
+}
+
+.menu-link-btn {
+  border: none;
+  background: none;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.38rem;
+  color: #00f5ff;
+  cursor: pointer;
+  padding: 0.35rem 0;
+  text-shadow:
+    0 0 8px #00f5ff,
+    0 0 18px rgba(0, 245, 255, 0.5);
+}
+
+.menu-link-btn:hover {
+  text-decoration: underline;
+  filter: brightness(1.15);
+}
+
+@media (min-width: 481px) {
+  .menu-crt {
+    min-height: 560px;
+  }
+}

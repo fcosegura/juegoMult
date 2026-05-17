@@ -163,89 +163,106 @@ async function syncAdventureProgress() {
   });
 }
 
-// Navigation
-$$("[data-back]").forEach((btn) => {
-  btn.addEventListener("click", () => showScreen("menu"));
-});
-
-$$("[data-action='menu']").forEach((btn) => {
-  btn.addEventListener("click", () => showScreen("menu"));
-});
-
-$("[data-action='arcade']")?.addEventListener("click", () => {
-  gameMode = "arcade";
-  showScreen("difficulty");
-  const note = $("#guest-note");
-  if (currentUser) {
-    note.textContent = "Tu puntaje se guardará en el ranking arcade.";
-  } else {
-    note.textContent = "Puedes jugar sin cuenta. Inicia sesión para guardar en el ranking.";
-  }
-});
-
-$("[data-action='adventure']")?.addEventListener("click", async () => {
-  if (!requireAuth("jugar la aventura")) return;
-  await refreshProfile();
-  renderAdventureMap();
-  showScreen("adventureMap");
-});
-
-$("[data-action='adventure-map']")?.addEventListener("click", () => {
-  renderAdventureMap();
-  showScreen("adventureMap");
-});
-
-$("[data-action='shop']")?.addEventListener("click", async () => {
-  if (!requireAuth("usar la tienda")) return;
-  await refreshProfile();
-  $("#pack-reveal").classList.add("hidden");
-  $("#shop-error").classList.add("hidden");
-  showScreen("shop");
-});
-
-$("[data-action='collection']")?.addEventListener("click", async () => {
-  if (!requireAuth("ver la colección")) return;
-  await loadCollection();
-  showScreen("collection");
-});
-
-$("[data-action='play-again']")?.addEventListener("click", () => {
-  if (gameMode === "arcade") {
-    if (selectedDifficulty) startArcadeGame(selectedDifficulty);
-    else showScreen("difficulty");
-  } else if (pendingAdventureEnd) {
-    const { worldId, sublevel } = pendingAdventureEnd;
-    startAdventureGame(worldId, sublevel);
-  } else {
-    showScreen("adventureMap");
-  }
-});
-
-$("[data-action='leaderboard']").addEventListener("click", async () => {
-  showScreen("leaderboard");
-  await loadLeaderboard();
-});
-
-$("[data-action='auth']").addEventListener("click", async () => {
-  if (currentUser) {
-    await authApi.logout();
-    currentUser = null;
-    resetProfile();
-    updateUserBanner();
+// Navigation (delegación: los overlays CRT no bloquean los clics)
+$("#app")?.addEventListener("click", async (e) => {
+  if (e.target.closest("[data-back]")) {
+    showScreen("menu");
     return;
   }
-  authMode = "login";
-  updateAuthForm();
-  showScreen("auth");
-});
 
-$("[data-action='quit-game']").addEventListener("click", () => {
-  if (game) game.stop();
-  if (adventureRun) adventureRun.stop();
-  game = null;
-  adventureRun = null;
-  resetGameScreenFx();
-  showScreen(gameMode === "arcade" ? "difficulty" : "adventureMap");
+  const btn = e.target.closest("[data-action]");
+  if (!btn) return;
+
+  const action = btn.dataset.action;
+
+  if (action === "menu") {
+    showScreen("menu");
+    return;
+  }
+
+  if (action === "arcade") {
+    gameMode = "arcade";
+    showScreen("difficulty");
+    const note = $("#guest-note");
+    if (note) {
+      note.textContent = currentUser
+        ? "Tu puntaje se guardará en el ranking arcade."
+        : "Puedes jugar sin cuenta. Inicia sesión para guardar en el ranking.";
+    }
+    return;
+  }
+
+  if (action === "adventure") {
+    if (!requireAuth("jugar la aventura")) return;
+    await refreshProfile();
+    renderAdventureMap();
+    showScreen("adventureMap");
+    return;
+  }
+
+  if (action === "adventure-map") {
+    renderAdventureMap();
+    showScreen("adventureMap");
+    return;
+  }
+
+  if (action === "shop") {
+    if (!requireAuth("usar la tienda")) return;
+    await refreshProfile();
+    $("#pack-reveal")?.classList.add("hidden");
+    $("#shop-error")?.classList.add("hidden");
+    showScreen("shop");
+    return;
+  }
+
+  if (action === "collection") {
+    if (!requireAuth("ver la colección")) return;
+    await loadCollection();
+    showScreen("collection");
+    return;
+  }
+
+  if (action === "play-again") {
+    if (gameMode === "arcade") {
+      if (selectedDifficulty) startArcadeGame(selectedDifficulty);
+      else showScreen("difficulty");
+    } else if (pendingAdventureEnd) {
+      const { worldId, sublevel } = pendingAdventureEnd;
+      startAdventureGame(worldId, sublevel);
+    } else {
+      showScreen("adventureMap");
+    }
+    return;
+  }
+
+  if (action === "leaderboard") {
+    showScreen("leaderboard");
+    await loadLeaderboard();
+    return;
+  }
+
+  if (action === "auth") {
+    if (currentUser) {
+      await authApi.logout();
+      currentUser = null;
+      resetProfile();
+      updateUserBanner();
+      return;
+    }
+    authMode = "login";
+    updateAuthForm();
+    showScreen("auth");
+    return;
+  }
+
+  if (action === "quit-game") {
+    if (game) game.stop();
+    if (adventureRun) adventureRun.stop();
+    game = null;
+    adventureRun = null;
+    resetGameScreenFx();
+    showScreen(gameMode === "arcade" ? "difficulty" : "adventureMap");
+  }
 });
 
 $("#btn-adventure-continue")?.addEventListener("click", () => {

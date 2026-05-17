@@ -240,21 +240,6 @@ body.arcade-theme {
   box-shadow: 0 1px 0 #0a0612;
 }
 
-.btn-difficulty {
-  min-height: 3.5rem;
-  color: #0a1828;
-  background:
-    repeating-linear-gradient(-18deg, #7ad4e8 0 3px, #3a98b0 3px 6px);
-  box-shadow: 0 5px 0 #2a6878;
-}
-
-.btn-difficulty small {
-  display: block;
-  margin-top: 0.35rem;
-  font-size: 0.38rem;
-  opacity: 0.85;
-}
-
 .btn-block {
   width: 100%;
 }

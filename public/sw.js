@@ -1,10 +1,12 @@
-const CACHE = "tablasmult-v3";
+const CACHE = "tablasmult-v6";
 const PRECACHE = [
   "/",
   "/index.html",
   "/css/styles.css",
   "/css/arcade-shell.css",
   "/css/arcade-game.css",
+  "/css/arcade-difficulty.css",
+  "/css/arcade-menu.css",
   "/js/app.js",
   "/js/api.js",
   "/js/game.js",
