@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 176" width="128" height="176">
+  <rect width="128" height="176" fill="#1a1a2e"/>
+  <rect x="8" y="8" width="112" height="160" fill="#e17055" stroke="#fff" stroke-width="2"/>
+  <rect x="16" y="24" width="96" height="72" fill="#0f0f1a" opacity="0.5"/>
+  <circle cx="64" cy="60" r="24" fill="#fff" opacity="0.9"/>
+  <text x="64" y="68" text-anchor="middle" font-family="monospace" font-size="14" fill="#e17055">#018</text>
+  <text x="64" y="140" text-anchor="middle" font-family="monospace" font-size="10" fill="#fff">CARD</text>
+</svg>

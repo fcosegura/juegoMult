@@ -1,0 +1,447 @@
+/* Shell global — mismo universo visual que la partida arcade */
+
+:root {
+  --arcade-bg: #0d0818;
+  --arcade-neon-pink: #ff2d6a;
+  --arcade-neon-cyan: #00f5ff;
+  --arcade-neon-yellow: #ffe566;
+  --arcade-btn: #2ecc40;
+  --arcade-btn-dark: #1a8f28;
+  --arcade-panel: #1a2848;
+  --arcade-panel-border: #c8d4f0;
+  --arcade-text: #f0e8ff;
+  --arcade-text-dim: #a89cc8;
+  --shadow-arcade: 0 4px 0 rgba(0, 0, 0, 0.45);
+}
+
+.arcade-theme {
+  font-family: "Press Start 2P", "Courier New", monospace;
+  image-rendering: pixelated;
+}
+
+body.arcade-theme {
+  margin: 0;
+  min-height: 100dvh;
+  color: var(--arcade-text);
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 0%, #2a1848 0%, transparent 55%),
+    linear-gradient(180deg, #1a0a2e 0%, #0a0612 100%);
+  animation: shell-flicker 8s infinite;
+}
+
+@keyframes shell-flicker {
+  0%,
+  96%,
+  100% {
+    filter: brightness(1);
+  }
+  97% {
+    filter: brightness(0.97);
+  }
+}
+
+/* Gabinete que envuelve menús y pantallas secundarias */
+#app.arcade-shell {
+  position: relative;
+  max-width: 420px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  padding: 0.65rem;
+  background: linear-gradient(145deg, #4a2040 0%, #2a1030 40%, #1a0820 100%);
+  box-shadow:
+    0 0 0 4px #1a0818,
+    0 0 0 8px #6b3058,
+    0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+#app.arcade-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.12) 0 1px,
+    transparent 1px 3px
+  );
+  opacity: 0.2;
+}
+
+#app.arcade-shell:has(#screen-game.arcade-screen.active) {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+#app.arcade-shell:has(#screen-game.arcade-screen.active)::before {
+  display: none;
+}
+
+/* Pantallas de menú dentro del “monitor” */
+.screen:not(.arcade-screen) {
+  position: relative;
+  z-index: 1;
+  min-height: calc(100dvh - 1.3rem);
+  padding: 0.85rem 0.65rem 1.5rem;
+  background: var(--arcade-bg);
+  border-radius: 8px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.65);
+}
+
+.screen:not(.arcade-screen).active {
+  animation: fadeIn 0.2s ease;
+}
+
+/* Títulos */
+.hero h1,
+.screen-header h2 {
+  margin: 1.25rem 0 0.5rem;
+  text-align: center;
+  font-size: clamp(0.65rem, 3.5vw, 0.85rem);
+  line-height: 1.7;
+  color: var(--arcade-neon-yellow);
+  text-shadow:
+    0 0 10px var(--arcade-neon-pink),
+    0 0 18px rgba(255, 45, 106, 0.5),
+    0 2px 0 #000;
+}
+
+.subtitle,
+.mode-desc,
+.guest-note {
+  text-align: center;
+  margin: 0 0 1.25rem;
+  font-size: 0.42rem;
+  line-height: 1.7;
+  color: var(--arcade-text-dim);
+}
+
+.screen-header {
+  margin-bottom: 0.75rem;
+}
+
+.screen-header h2 {
+  margin-top: 0.35rem;
+}
+
+.back-btn {
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 0.42rem;
+  color: var(--arcade-neon-cyan);
+  text-shadow: 0 0 6px var(--arcade-neon-cyan);
+  cursor: pointer;
+  padding: 0.25rem 0;
+}
+
+.back-btn:hover {
+  filter: brightness(1.15);
+}
+
+/* Barra monedas y usuario */
+.coins-bar {
+  text-align: center;
+  background: #120a1c;
+  border: 3px solid #3d2858;
+  color: var(--arcade-neon-yellow);
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.45rem;
+  text-shadow: 0 0 8px var(--arcade-neon-yellow);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+.user-banner {
+  background: var(--arcade-panel);
+  border: 3px solid var(--arcade-panel-border);
+  border-radius: 4px;
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 0.75rem;
+  text-align: center;
+  font-size: 0.4rem;
+  line-height: 1.6;
+  color: var(--arcade-text);
+  box-shadow: 4px 4px 0 #0a1020;
+}
+
+.user-banner strong {
+  color: var(--arcade-neon-cyan);
+}
+
+/* Botones menú — estilo arcade */
+.menu-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  font-family: inherit;
+  font-size: 0.5rem;
+  line-height: 1.6;
+  font-weight: normal;
+  cursor: pointer;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: transform 0.08s ease, filter 0.08s ease;
+}
+
+.btn:active {
+  transform: translateY(3px);
+}
+
+.btn-primary {
+  color: #0a2010;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.3) 0%, transparent 45%),
+    repeating-linear-gradient(-18deg, var(--arcade-btn) 0 3px, var(--arcade-btn-dark) 3px 6px);
+  box-shadow:
+    0 5px 0 var(--arcade-btn-dark),
+    0 0 12px rgba(46, 204, 64, 0.35);
+}
+
+.btn-primary:active {
+  box-shadow:
+    0 2px 0 var(--arcade-btn-dark),
+    0 0 8px rgba(46, 204, 64, 0.3);
+}
+
+.btn-secondary {
+  color: #0a1828;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.35) 0%, transparent 45%),
+    repeating-linear-gradient(-18deg, #5ec8f0 0 3px, #2a88b8 3px 6px);
+  box-shadow:
+    0 5px 0 #1a5880,
+    0 0 12px rgba(0, 245, 255, 0.25);
+}
+
+.btn-secondary:active {
+  box-shadow: 0 2px 0 #1a5880;
+}
+
+.btn-ghost {
+  color: var(--arcade-text);
+  background: #1a1228;
+  border: 3px solid #4a3868;
+  box-shadow:
+    0 4px 0 #0a0612,
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  text-shadow: 0 0 6px var(--arcade-neon-cyan);
+}
+
+.btn-ghost:active {
+  box-shadow: 0 1px 0 #0a0612;
+}
+
+.btn-difficulty {
+  min-height: 3.5rem;
+  color: #0a1828;
+  background:
+    repeating-linear-gradient(-18deg, #7ad4e8 0 3px, #3a98b0 3px 6px);
+  box-shadow: 0 5px 0 #2a6878;
+}
+
+.btn-difficulty small {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.38rem;
+  opacity: 0.85;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.link-btn {
+  border: none;
+  background: none;
+  color: var(--arcade-neon-cyan);
+  font-family: inherit;
+  font-size: 0.4rem;
+  text-decoration: none;
+  text-shadow: 0 0 8px var(--arcade-neon-cyan);
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
+/* Paneles RPG (formularios, tienda, game over) */
+.card {
+  background: var(--arcade-panel);
+  border: 4px solid var(--arcade-panel-border);
+  border-radius: 4px;
+  padding: 1rem;
+  box-shadow:
+    4px 4px 0 #0a1020,
+    inset 0 0 0 2px #304878,
+    0 0 16px rgba(0, 245, 255, 0.12);
+}
+
+label {
+  display: block;
+  margin-bottom: 0.85rem;
+  font-size: 0.42rem;
+  line-height: 1.6;
+  color: var(--arcade-text);
+}
+
+input,
+select {
+  width: 100%;
+  margin-top: 0.4rem;
+  padding: 0.65rem 0.5rem;
+  font-family: inherit;
+  font-size: 0.45rem;
+  color: var(--arcade-neon-yellow);
+  background: #0a1020;
+  border: 3px solid #5a6a98;
+  border-radius: 0;
+  box-shadow: inset 3px 3px 0 #000;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--arcade-neon-cyan);
+  box-shadow:
+    inset 3px 3px 0 #000,
+    0 0 10px rgba(0, 245, 255, 0.35);
+}
+
+.hint {
+  display: block;
+  font-size: 0.35rem;
+  color: var(--arcade-text-dim);
+  margin-top: 0.35rem;
+}
+
+.form-error {
+  color: #ff6b6b;
+  font-size: 0.38rem;
+  text-shadow: 0 0 6px #f44;
+}
+
+/* Game over y listas */
+.gameover-card {
+  text-align: center;
+}
+
+.final-score {
+  font-size: 0.65rem;
+  line-height: 1.7;
+  color: var(--arcade-neon-yellow);
+  text-shadow: 0 0 10px var(--arcade-neon-pink);
+}
+
+.save-status {
+  min-height: 1.5rem;
+  font-size: 0.38rem;
+  color: var(--arcade-text-dim);
+}
+
+.filter-row label {
+  font-size: 0.4rem;
+}
+
+.leaderboard-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: #120a1c;
+  border: 2px solid #3d2858;
+  margin-bottom: 0.5rem;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.38rem;
+  line-height: 1.5;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.leaderboard-list .rank {
+  color: var(--arcade-neon-pink);
+  min-width: 2rem;
+}
+
+.leaderboard-list .pts {
+  color: var(--arcade-neon-yellow);
+}
+
+.empty-state {
+  text-align: center;
+  font-size: 0.4rem;
+  color: var(--arcade-text-dim);
+}
+
+.install-hint {
+  text-align: center;
+  margin-top: 1.25rem;
+}
+
+/* Mapa aventura — ya pixel; afinar bordes */
+.sublevel-btn {
+  border: 3px solid #5a6a98;
+  border-radius: 4px;
+  padding: 0.85rem;
+  font-size: 0.45rem;
+  color: #0a1828;
+  background: repeating-linear-gradient(-18deg, #7ad4e8 0 3px, #3a98b0 3px 6px);
+  box-shadow: 0 4px 0 #2a6878;
+}
+
+.sublevel-btn.done {
+  border-color: var(--arcade-btn);
+  box-shadow: 0 4px 0 var(--arcade-btn-dark), 0 0 8px rgba(46, 204, 64, 0.4);
+}
+
+.shop-card .shop-coins,
+.shop-desc,
+.shop-price {
+  font-size: 0.42rem;
+  line-height: 1.7;
+}
+
+.shop-card strong {
+  color: var(--arcade-neon-yellow);
+}
+
+.collection-rarity {
+  font-size: 0.45rem;
+  color: var(--arcade-neon-cyan);
+  text-shadow: 0 0 6px var(--arcade-neon-cyan);
+}
+
+.card-name {
+  font-size: 0.35rem;
+  color: var(--arcade-text);
+}
+
+.card-qty {
+  font-size: 0.4rem;
+  color: var(--arcade-neon-pink);
+}
+
+.pack-reveal-title {
+  font-size: 0.45rem;
+  color: var(--arcade-neon-yellow);
+}
+
+@media (min-width: 481px) {
+  body.arcade-theme {
+    padding: 1rem 0;
+  }
+
+  #app.arcade-shell:not(:has(#screen-game.arcade-screen.active)) {
+    margin-top: 0;
+    border-radius: 18px 18px 12px 12px;
+    min-height: calc(100dvh - 2rem);
+  }
+}

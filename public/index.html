@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#1a0820" />
+    <meta name="description" content="Aprende las tablas de multiplicar jugando" />
+    <title>Aprendamos Las Tablas</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/arcade-shell.css" />
+    <link rel="stylesheet" href="/css/arcade-game.css" />
+  </head>
+  <body class="arcade-theme">
+    <div id="app" class="arcade-shell">
+      <!-- Menú principal -->
+      <section id="screen-menu" class="screen active">
+        <header class="hero">
+          <h1>Aprendamos Las Tablas</h1>
+          <p class="subtitle">Modo arcade, aventura y colección</p>
+        </header>
+        <div class="coins-bar hidden" id="coins-bar">
+          <span class="coin-icon">🪙</span>
+          <span id="menu-coins">0</span> monedas
+        </div>
+        <div id="user-banner" class="user-banner hidden"></div>
+        <nav class="menu-actions">
+          <button type="button" class="btn btn-primary" data-action="arcade">🕹️ Arcade</button>
+          <button type="button" class="btn btn-primary" data-action="adventure">🗺️ Aventura</button>
+          <button type="button" class="btn btn-secondary" data-action="shop">🏪 Tienda</button>
+          <button type="button" class="btn btn-secondary" data-action="collection">📚 Colección</button>
+          <button type="button" class="btn btn-ghost" data-action="leaderboard">🏆 Ranking</button>
+          <button type="button" class="btn btn-ghost" data-action="auth" id="btn-auth">Entrar</button>
+        </nav>
+        <p class="install-hint hidden" id="install-hint">
+          <button type="button" class="link-btn" id="btn-install">Instalar app</button>
+        </p>
+      </section>
+
+      <!-- Auth -->
+      <section id="screen-auth" class="screen">
+        <header class="screen-header">
+          <button type="button" class="back-btn" data-back>&larr; Volver</button>
+          <h2 id="auth-title">Iniciar sesión</h2>
+        </header>
+        <form id="auth-form" class="card">
+          <label>
+            Usuario
+            <input name="username" autocomplete="username" required minlength="3" maxlength="20" pattern="[a-z0-9_]+" />
+            <span class="hint">Solo minúsculas, números y _</span>
+          </label>
+          <label id="display-name-field" class="hidden">
+            Nombre para mostrar
+            <input name="displayName" autocomplete="name" minlength="2" maxlength="30" />
+          </label>
+          <label>
+            Contraseña
+            <input name="password" type="password" autocomplete="current-password" required minlength="6" />
+          </label>
+          <p class="form-error hidden" id="auth-error"></p>
+          <button type="submit" class="btn btn-primary btn-block">Continuar</button>
+          <button type="button" class="link-btn" id="auth-toggle">
+            ¿No tienes cuenta? Regístrate
+          </button>
+        </form>
+      </section>
+
+      <!-- Arcade: dificultad -->
+      <section id="screen-difficulty" class="screen">
+        <header class="screen-header">
+          <button type="button" class="back-btn" data-back>&larr; Volver</button>
+          <h2>Modo Arcade</h2>
+        </header>
+        <p class="mode-desc">Elige la dificultad y responde hasta quedarte sin vidas.</p>
+        <div class="difficulty-grid">
+          <button type="button" class="btn btn-difficulty" data-level="facil">Fácil<br /><small>1–5</small></button>
+          <button type="button" class="btn btn-difficulty" data-level="medio">Medio<br /><small>1–10</small></button>
+          <button type="button" class="btn btn-difficulty" data-level="dificil">Difícil<br /><small>5–15</small></button>
+        </div>
+        <p class="guest-note" id="guest-note"></p>
+      </section>
+
+      <!-- Aventura: mapa -->
+      <section id="screen-adventure-map" class="screen">
+        <header class="screen-header">
+          <button type="button" class="back-btn" data-back>&larr; Volver</button>
+          <h2>Mapa de aventura</h2>
+        </header>
+        <p class="mode-desc" id="adventure-map-desc"></p>
+        <div id="world-map" class="world-map"></div>
+      </section>
+
+      <!-- Aventura: selector subnivel -->
+      <section id="screen-adventure-levels" class="screen">
+        <header class="screen-header">
+          <button type="button" class="back-btn" data-action="adventure-map">&larr; Mapa</button>
+          <h2 id="adventure-world-title">Mundo</h2>
+        </header>
+        <div id="sublevel-list" class="sublevel-list"></div>
+      </section>
+
+      <!-- Juego (cabinet arcade retro) -->
+      <section id="screen-game" class="screen arcade-screen" data-world="">
+        <div class="arcade-cabinet" role="application" aria-label="Partida en curso">
+          <div class="arcade-bezel">
+            <div class="crt-screen">
+              <div class="game-stage">
+                <div class="castle-bg" aria-hidden="true">
+                  <span class="torch torch--left"></span>
+                  <span class="torch torch--right"></span>
+                </div>
+
+                <header class="game-hud-retro">
+                  <div class="pixel-hearts" id="hearts" aria-label="Vidas"></div>
+                  <p class="game-world-title" id="level-label">MUNDO 1 - NIVEL 1</p>
+                  <p class="game-score-retro" id="score-label">Aciertos: 0 / 5</p>
+                </header>
+
+                <div class="rpg-question-panel">
+                  <p class="question" id="question">¿Cuánto es ?</p>
+                </div>
+
+                <form id="answer-form" class="answer-form-retro">
+                  <div class="pixel-input-wrap">
+                    <input
+                      id="answer-input"
+                      type="number"
+                      inputmode="numeric"
+                      autocomplete="off"
+                      placeholder="?"
+                      aria-label="Tu respuesta"
+                    />
+                    <span class="pixel-cursor" id="pixel-cursor" aria-hidden="true"></span>
+                  </div>
+                  <button type="submit" class="btn-arcade-respond">RESPONDER</button>
+                </form>
+
+                <div class="time-route" aria-label="Ruta de tiempo del nivel">
+                  <div class="time-route-scene">
+                    <div class="time-route-platforms" id="time-route-platforms"></div>
+                    <div class="lava-pit" aria-hidden="true">
+                      <span class="lava-bubble"></span>
+                      <span class="lava-bubble"></span>
+                      <span class="lava-bubble"></span>
+                    </div>
+                    <div class="knight-sprite" id="knight" aria-hidden="true">
+                      <span class="knight-body"></span>
+                      <span class="knight-face"></span>
+                    </div>
+                    <div class="loss-fx hidden" id="loss-fx" aria-hidden="true">
+                      <span class="puf-text">¡PUF!</span>
+                      <span class="smoke-cloud"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="life-loss-overlay hidden" id="life-loss-overlay" aria-live="assertive">
+                  <p class="life-loss-banner" id="life-loss-banner">¡TIEMPO AGOTADO! VIDA PERDIDA!</p>
+                </div>
+
+                <p class="feedback" id="feedback" aria-live="polite"></p>
+                <button type="button" class="link-btn quit-btn pixel-link-cyan" data-action="quit-game">
+                  Salir de la partida
+                </button>
+              </div>
+              <div class="crt-scanlines" aria-hidden="true"></div>
+              <div class="crt-curve" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Game over -->
+      <section id="screen-gameover" class="screen">
+        <header class="screen-header">
+          <h2 id="gameover-title">¡Fin de la partida!</h2>
+        </header>
+        <div class="card gameover-card">
+          <p class="final-score" id="final-score">Puntos: 0</p>
+          <p id="save-status" class="save-status"></p>
+          <button type="button" class="btn btn-primary hidden" id="btn-adventure-continue">Continuar</button>
+          <button type="button" class="btn btn-primary" data-action="play-again">Jugar otra vez</button>
+          <button type="button" class="btn btn-secondary" data-action="menu">Menú principal</button>
+        </div>
+      </section>
+
+      <!-- Tienda -->
+      <section id="screen-shop" class="screen">
+        <header class="screen-header">
+          <button type="button" class="back-btn" data-back>&larr; Volver</button>
+          <h2>🏪 Tienda</h2>
+        </header>
+        <div class="card shop-card">
+          <p class="shop-coins">Tienes <strong id="shop-coins">0</strong> 🪙</p>
+          <p class="shop-desc">Sobre de cartas aleatorio</p>
+          <p class="shop-price">Coste: <strong id="shop-pack-cost">50</strong> monedas</p>
+          <button type="button" class="btn btn-primary btn-block" id="btn-open-pack">Abrir sobre</button>
+          <p class="form-error hidden" id="shop-error"></p>
+        </div>
+        <div id="pack-reveal" class="hidden"></div>
+      </section>
+
+      <!-- Colección -->
+      <section id="screen-collection" class="screen">
+        <header class="screen-header">
+          <button type="button" class="back-btn" data-back>&larr; Volver</button>
+          <h2>📚 Colección</h2>
+        </header>
+        <div class="filter-row">
+          <label>
+            Rareza
+            <select id="collection-filter">
+              <option value="all">Todas</option>
+              <option value="common">Común</option>
+              <option value="rare">Rara</option>
+              <option value="epic">Épica</option>
+              <option value="legendary">Legendaria</option>
+            </select>
+          </label>
+        </div>
+        <div id="collection-grid"></div>
+      </section>
+
+      <!-- Ranking -->
+      <section id="screen-leaderboard" class="screen">
+        <header class="screen-header">
+          <button type="button" class="back-btn" data-back>&larr; Volver</button>
+          <h2>🏆 Ranking Arcade</h2>
+        </header>
+        <div class="filter-row">
+          <label>
+            Nivel
+            <select id="leaderboard-filter">
+              <option value="all">Todos</option>
+              <option value="facil">Fácil</option>
+              <option value="medio">Medio</option>
+              <option value="dificil">Difícil</option>
+            </select>
+          </label>
+        </div>
+        <ol id="leaderboard-list" class="leaderboard-list"></ol>
+        <p class="empty-state hidden" id="leaderboard-empty">Aún no hay puntajes.</p>
+      </section>
+    </div>
+
+    <script type="module" src="/js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Tablas de multiplicar">
+  <rect width="512" height="512" rx="96" fill="#ffefd5"/>
+  <text x="256" y="200" text-anchor="middle" font-size="120" font-family="Comic Sans MS, sans-serif" fill="#ff1493">×</text>
+  <text x="256" y="340" text-anchor="middle" font-size="72" font-family="Comic Sans MS, sans-serif" fill="#333">7×8</text>
+  <circle cx="400" cy="112" r="48" fill="#90ee90"/>
+  <text x="400" y="128" text-anchor="middle" font-size="40" font-family="sans-serif" fill="#1a1a2e">56</text>
+</svg>

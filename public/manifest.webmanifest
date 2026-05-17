@@ -1,0 +1,19 @@
+{
+  "name": "Aprendamos Las Tablas",
+  "short_name": "Tablas",
+  "description": "Practica las tablas de multiplicar y compite en el ranking",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0612",
+  "theme_color": "#1a0820",
+  "orientation": "portrait-primary",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
