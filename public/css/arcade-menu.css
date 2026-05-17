@@ -5,12 +5,11 @@
   background: transparent;
   box-shadow: none;
   min-height: calc(100dvh - 1.3rem);
-  display: flex;
-  flex-direction: column;
 }
 
 #screen-menu.menu-screen.active {
   display: flex;
+  flex-direction: column;
 }
 
 .menu-cabinet {

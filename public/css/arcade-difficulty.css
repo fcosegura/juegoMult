@@ -5,12 +5,11 @@
   background: transparent;
   box-shadow: none;
   min-height: calc(100dvh - 1.3rem);
-  display: flex;
-  flex-direction: column;
 }
 
 #screen-difficulty.difficulty-screen.active {
   display: flex;
+  flex-direction: column;
 }
 
 .difficulty-cabinet {

@@ -1,4 +1,4 @@
-const CACHE = "tablasmult-v6";
+const CACHE = "tablasmult-v7";
 const PRECACHE = [
   "/",
   "/index.html",
@@ -52,18 +52,16 @@ self.addEventListener("fetch", (event) => {
 
   if (request.method !== "GET") return;
 
+  // Red primero para que HTML/CSS/JS no queden obsoletos en caché
   event.respondWith(
-    caches.match(request).then((cached) => {
-      const network = fetch(request)
-        .then((response) => {
-          if (response.ok && url.origin === self.location.origin) {
-            const copy = response.clone();
-            caches.open(CACHE).then((cache) => cache.put(request, copy));
-          }
-          return response;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
+    fetch(request)
+      .then((response) => {
+        if (response.ok && url.origin === self.location.origin) {
+          const copy = response.clone();
+          caches.open(CACHE).then((cache) => cache.put(request, copy));
+        }
+        return response;
+      })
+      .catch(() => caches.match(request))
   );
 });

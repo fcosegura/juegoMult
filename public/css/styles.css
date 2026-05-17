@@ -18,6 +18,12 @@
   display: block;
 }
 
+/* Pantallas CRT: ocultar cuando no están activas (evita que tapen otras) */
+.screen.menu-screen:not(.active),
+.screen.difficulty-screen:not(.active) {
+  display: none !important;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
